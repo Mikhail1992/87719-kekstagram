@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Михаил Деркач](https://up.htmlacademy.ru/javascript/14/user/87719).
-* Наставник: `Неизвестно`.
+* Наставник: [Иван Шмидт](https://htmlacademy.ru/profile/id769843).
 
 ---
 
