@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
   var picturesContainer = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content;
 
@@ -33,14 +33,14 @@
 
   var generatePictures = function (size) {
     var counter = 0;
-    return Array(size).fill().map(function() {
+    return Array(size).fill().map(function () {
       counter++;
       return {
         url: 'photos/' + counter + '.jpg',
         likes: window.randomInteger(15, 200),
         comments: [comments[window.randomInteger(0, comments.length - 1)]],
         description: description[window.randomInteger(0, description.length - 1)]
-      }
+      };
     });
   };
 
@@ -74,7 +74,7 @@
   currentCommentsCount.textContent = currentPicture.comments.length;
 
   var commentWrapper = makeElement('li', 'social__comment');
-  var commentAuthorAvatar= makeElement('img', 'social__picture');
+  var commentAuthorAvatar = makeElement('img', 'social__picture');
   commentAuthorAvatar.src = 'img/avatar-' + window.randomInteger(1, 6) + '.svg';
   commentAuthorAvatar.width = 35;
   commentAuthorAvatar.height = 35;
