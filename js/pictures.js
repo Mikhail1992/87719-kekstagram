@@ -22,14 +22,21 @@
     'Вот это тачка!'
   ];
 
-  var generateComment = function (size) {
+  var showElement = function (node) {
+    node.classList.remove('hidden');
+  };
+
+  var hideVisuallyElement = function (node) {
+    node.classList.add('visually-hidden');
+  };
+
+
+  var generateComments = function (size) {
+    var randomArr = [];
     return Array(size).fill().map(function () {
-      var randomCommentNumber = window.utils.randomInteger(1, comments.length - 1);
-      var firstPartOfComment = comments[randomCommentNumber];
-      var secondPartOfComment = window.utils.randomBool ?
-        ' ' + comments[randomCommentNumber - 1] : '';
-      var comment = firstPartOfComment + secondPartOfComment;
-      return comment;
+      var randomComment = window.utils.randomIntegerExistArr(1, comments.length - 1, randomArr);
+      randomArr.push(randomComment);
+      return comments[randomComment];
     });
   };
 
@@ -38,12 +45,13 @@
       return {
         url: 'photos/' + (index + 1) + '.jpg',
         likes: window.utils.randomInteger(15, 200),
-        comments: generateComment(window.utils.randomInteger(1, 3)),
+        comments: generateComments(window.utils.randomInteger(1, 2)),
         description: description[window.utils.randomInteger(0, description.length - 1)]
       };
     });
   };
-  var pictureList = generatePictures(25);
+  var pictureList = window.utils.shuffle(generatePictures(25));
+  // var pictureList = generatePictures(25);
 
   var makeElement = function (tagName, className, text) {
     var element = document.createElement(tagName);
@@ -88,15 +96,14 @@
 
   var createCurrentImageCommentAvatar = function () {
     var commentAuthorAvatar = makeElement('img', 'social__picture');
-    var avatarClone = commentAuthorAvatar.cloneNode();
-    avatarClone.src = 'img/avatar-' + window.utils.randomInteger(1, 6) + '.svg';
-    avatarClone.width = 35;
-    avatarClone.height = 35;
-    return avatarClone;
+    commentAuthorAvatar.src = 'img/avatar-' + window.utils.randomInteger(1, 6) + '.svg';
+    commentAuthorAvatar.width = 35;
+    commentAuthorAvatar.height = 35;
+    return commentAuthorAvatar;
   };
 
   var renderCurrentImageComment = function () {
-    var commentText = document.createTextNode(currentPictureData.comments[0]);
+    var commentText = document.createTextNode(currentPictureData.comments);
     var commentWrapper = makeElement('li', 'social__comment');
     var commentsContainer = currentPictureNode.querySelector('.social__comments');
     var commentAuthorAvatar = createCurrentImageCommentAvatar();
@@ -112,9 +119,9 @@
 
   var currentPictureNode = document.querySelector('.big-picture');
   var currentPictureData = pictureList[0];
-  window.utils.showElement(currentPictureNode);
-  window.utils.hideElement(document.querySelector('.social__comment-count'));
-  window.utils.hideElement(document.querySelector('.social__loadmore'));
+  showElement(currentPictureNode);
+  hideVisuallyElement(document.querySelector('.social__comment-count'));
+  hideVisuallyElement(document.querySelector('.social__loadmore'));
   renderPictureList(pictureList, picturesContainer);
   renderCurrentImage(currentPictureData, currentPictureNode);
   renderCurrentImageLikesCount(currentPictureData);
