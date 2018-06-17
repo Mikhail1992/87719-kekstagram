@@ -33,11 +33,11 @@
   var generateComments = function (size, outerComments) {
     var newComments = Array.prototype.slice.apply(outerComments);
     var shuffledComments = window.utils.shuffle(newComments);
-    return shuffledComments.slice(0, size);
+    return shuffledComments.slice(0, size).join(' ');
   };
 
   var generateImageUrl = function (size) {
-    var newUrls = Array(size).fill().map((item, index) => index + 1);
+    var newUrls = Array(size).fill().map((item, index) => 'photos/' + (index + 1) + '.jpg');
     var shuffledUrls = window.utils.shuffle(newUrls);
     return shuffledUrls.slice(0, size);
   };
@@ -46,7 +46,7 @@
     var urlsList = generateImageUrl(size);
     return Array(size).fill().map(function (item, index) {
       return {
-        url: 'photos/' + urlsList[index] + '.jpg',
+        url: urlsList[index],
         likes: window.utils.randomInteger(15, 200),
         comments: generateComments(2, comments),
         description: description[window.utils.randomInteger(0, description.length - 1)]
