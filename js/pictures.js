@@ -30,22 +30,25 @@
     node.classList.add('visually-hidden');
   };
 
+  var generateComments = function (size, outerComments) {
+    var newComments = Array.prototype.slice.apply(outerComments);
+    var shuffledComments = window.utils.shuffle(newComments);
+    return shuffledComments.slice(0, size);
+  };
 
-  var generateComments = function (size) {
-    var randomArr = [];
-    return Array(size).fill().map(function () {
-      var randomComment = window.utils.randomIntegerExistArr(1, comments.length - 1, randomArr);
-      randomArr.push(randomComment);
-      return comments[randomComment];
-    });
+  var generateImageUrl = function (size) {
+    var newUrls = Array(size).fill().map((item, index) => index + 1);
+    var shuffledUrls = window.utils.shuffle(newUrls);
+    return shuffledUrls.slice(0, size);
   };
 
   var generatePictures = function (size) {
+    var urlsList = generateImageUrl(size);
     return Array(size).fill().map(function (item, index) {
       return {
-        url: 'photos/' + (index + 1) + '.jpg',
+        url: 'photos/' + urlsList[index] + '.jpg',
         likes: window.utils.randomInteger(15, 200),
-        comments: generateComments(window.utils.randomInteger(1, 2)),
+        comments: generateComments(2, comments),
         description: description[window.utils.randomInteger(0, description.length - 1)]
       };
     });
