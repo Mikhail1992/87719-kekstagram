@@ -37,7 +37,9 @@
   };
 
   var generateImageUrl = function (size) {
-    var newUrls = Array(size).fill().map((item, index) => 'photos/' + (index + 1) + '.jpg');
+    var newUrls = Array(size).fill().map(function (item, index) {
+      return 'photos/' + (index + 1) + '.jpg';
+    });
     var shuffledUrls = window.utils.shuffle(newUrls);
     return shuffledUrls.slice(0, size);
   };
