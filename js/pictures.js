@@ -50,8 +50,7 @@
       };
     });
   };
-  var pictureList = window.utils.shuffle(generatePictures(25));
-  // var pictureList = generatePictures(25);
+  var pictureList = generatePictures(25);
 
   var makeElement = function (tagName, className, text) {
     var element = document.createElement(tagName);
