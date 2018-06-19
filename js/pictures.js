@@ -1,26 +1,31 @@
 'use strict';
 
 (function () {
+  var choosedEffect = 'none';
+  var effectProcentDefault = 20;
+
   var picturesContainer = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content;
 
+  var currentPictureNode = document.querySelector('.big-picture');
   var bigPictureImg = document.querySelector('.big-picture__img img');
   var buttonCloseBigBicture = document.querySelector('.big-picture__cancel');
 
   var uploadFile = document.querySelector('#upload-file');
   var imageUploadContainer = document.querySelector('.img-upload__overlay');
   var currentImage = document.querySelector('.img-upload__preview img');
-  var effectList = document.querySelector('.effects__list');
+  var buttonClose = document.querySelector('.img-upload__cancel');
+
   var resizeControlValue = document.querySelector('.resize__control--value');
   var resizeControlPlus = document.querySelector('.resize__control--plus');
   var resizeControlMinus = document.querySelector('.resize__control--minus');
-  var buttonClose = document.querySelector('.img-upload__cancel');
+
   var scaleValue = document.querySelector('.scale__value');
   var scaleLine = document.querySelector('.scale__line');
   var scaleLevel = document.querySelector('.scale__level');
   var pin = document.querySelector('.scale__pin');
-  var choosedEffect = 'none';
-  var effectProcentDefault = 20;
+
+  var effectList = document.querySelector('.effects__list');
 
   var comments = [
     'Всё отлично!',
@@ -117,7 +122,6 @@
       };
     });
   };
-  var pictureList = generatePictures(25);
 
   var makeElement = function (tagName, className, text) {
     var element = document.createElement(tagName);
@@ -258,17 +262,6 @@
     });
   };
 
-  var currentPictureNode = document.querySelector('.big-picture');
-  var currentPictureData = pictureList[0];
-  hideVisuallyElement(document.querySelector('.social__comment-count'));
-  hideVisuallyElement(document.querySelector('.social__loadmore'));
-  renderPictureList(pictureList, picturesContainer);
-  renderCurrentImage(currentPictureData);
-  renderCurrentImageLikesCount(currentPictureData);
-  renderCurrentImageCommentsCount(currentPictureData);
-  renderCurrentImageComment();
-  renderCurrentImageDescription();
-  slider(changeEffect);
 
   effectList.addEventListener('click', function (event) {
     var currentEffect = event.target;
@@ -316,4 +309,16 @@
   buttonCloseBigBicture.addEventListener('click', function () {
     hideElement(currentPictureNode);
   });
+
+  var pictureList = generatePictures(25);
+  var currentPictureData = pictureList[0];
+  hideVisuallyElement(document.querySelector('.social__comment-count'));
+  hideVisuallyElement(document.querySelector('.social__loadmore'));
+  renderPictureList(pictureList, picturesContainer);
+  renderCurrentImage(currentPictureData);
+  renderCurrentImageLikesCount(currentPictureData);
+  renderCurrentImageCommentsCount(currentPictureData);
+  renderCurrentImageComment();
+  renderCurrentImageDescription();
+  slider(changeEffect);
 })();
