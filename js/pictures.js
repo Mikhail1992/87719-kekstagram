@@ -184,7 +184,7 @@
 
   var handleResizeControl = function (newValue) {
     resizeControlValue.value = newValue + '%';
-    imageUploadContainer.style.transform = 'scale(' + (newValue / 100) + ')';
+    currentImage.style.transform = 'scale(' + (newValue / 100) + ')';
   };
 
   var setSliderValue = function (value) {
@@ -197,7 +197,7 @@
     var unit = effectsList[choosedEffect].unit;
     var skip = effectsList[choosedEffect].skip ? effectsList[choosedEffect].skip : 0;
     var effect = effectsList[choosedEffect].effect + '(' + (onePart + skip) + '' + unit + ')';
-    imageUploadContainer.style.filter = effectsList[choosedEffect].effect ? effect : 'none';
+    currentImage.style.filter = effectsList[choosedEffect].effect ? effect : 'none';
   };
 
   var slider = function (handler) {
