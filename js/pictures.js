@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
   var picturesContainer = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content;
 
@@ -16,13 +16,6 @@
   var resizeControlValue = document.querySelector('.resize__control--value');
   var resizeControlPlus = document.querySelector('.resize__control--plus');
   var resizeControlMinus = document.querySelector('.resize__control--minus');
-
-  var sliderElements = {
-    value: document.querySelector('.scale__value'),
-    line: document.querySelector('.scale__line'),
-    level: document.querySelector('.scale__level'),
-    pin: document.querySelector('.scale__pin'),
-  };
 
   var effectList = document.querySelector('.effects__list');
   var choosedEffect = 'none';
@@ -86,39 +79,39 @@
     },
   };
 
-  var showElement = function(node) {
+  var showElement = function (node) {
     node.classList.remove('hidden');
   };
 
-  var hideElement = function(node) {
+  var hideElement = function (node) {
     node.classList.add('hidden');
   };
 
-  var hideVisuallyElement = function(node) {
+  var hideVisuallyElement = function (node) {
     node.classList.add('visually-hidden');
   };
 
-  var generateComments = function(size, outerComments) {
+  var generateComments = function (size, outerComments) {
     var newComments = Array.prototype.slice.apply(outerComments);
     var shuffledComments = window.utils.shuffle(newComments);
     return shuffledComments.slice(0, size).join(' ');
   };
 
-  var generateImageUrl = function(size) {
+  var generateImageUrl = function (size) {
     var newUrls = Array(size)
       .fill()
-      .map(function(item, index) {
+      .map(function (item, index) {
         return 'photos/' + (index + 1) + '.jpg';
       });
     var shuffledUrls = window.utils.shuffle(newUrls);
     return shuffledUrls.slice(0, size);
   };
 
-  var generatePictures = function(size) {
+  var generatePictures = function (size) {
     var urlsList = generateImageUrl(size);
     return Array(size)
       .fill()
-      .map(function(item, index) {
+      .map(function (item, index) {
         return {
           url: urlsList[index],
           likes: window.utils.randomInteger(15, 200),
@@ -129,7 +122,7 @@
       });
   };
 
-  var makeElement = function(tagName, className, text) {
+  var makeElement = function (tagName, className, text) {
     var element = document.createElement(tagName);
     element.classList.add(className);
     if (text) {
@@ -138,7 +131,7 @@
     return element;
   };
 
-  var generatePicture = function(data, node) {
+  var generatePicture = function (data, node) {
     var pictureElement = node.cloneNode(true);
     pictureElement.querySelector('.picture__img').src = data.url;
     pictureElement.querySelector('.picture__stat--likes').textContent =
@@ -149,34 +142,34 @@
     return pictureElement;
   };
 
-  var renderPictureList = function(elements, parentNode) {
+  var renderPictureList = function (elements, parentNode) {
     var fragment = document.createDocumentFragment();
-    elements.forEach(function(element) {
+    elements.forEach(function (element) {
       window.utils.appendNode(
-        generatePicture(element, pictureTemplate),
-        fragment
+          generatePicture(element, pictureTemplate),
+          fragment
       );
     });
     window.utils.appendNode(fragment, parentNode);
   };
 
-  var renderCurrentImage = function(data, node) {
+  var renderCurrentImage = function (data, node) {
     node.src = data.url;
   };
 
-  var renderCurrentImageLikesCount = function(data) {
+  var renderCurrentImageLikesCount = function (data) {
     var currentLikes = currentPictureNode.querySelector('.likes-count');
     currentLikes.textContent = data.likes;
   };
 
-  var renderCurrentImageCommentsCount = function(data) {
+  var renderCurrentImageCommentsCount = function (data) {
     var currentCommentsCount = currentPictureNode.querySelector(
-      '.comments-count'
+        '.comments-count'
     );
     currentCommentsCount.textContent = data.comments.length;
   };
 
-  var createCurrentImageCommentAvatar = function() {
+  var createCurrentImageCommentAvatar = function () {
     var commentAuthorAvatar = makeElement('img', 'social__picture');
     commentAuthorAvatar.src =
       'img/avatar-' + window.utils.randomInteger(1, 6) + '.svg';
@@ -185,11 +178,11 @@
     return commentAuthorAvatar;
   };
 
-  var renderCurrentImageComment = function() {
+  var renderCurrentImageComment = function () {
     var commentText = document.createTextNode(currentPictureData.comments);
     var commentWrapper = makeElement('li', 'social__comment');
     var commentsContainer = currentPictureNode.querySelector(
-      '.social__comments'
+        '.social__comments'
     );
     var commentAuthorAvatar = createCurrentImageCommentAvatar();
     window.utils.appendNode(commentWrapper, commentsContainer);
@@ -197,23 +190,23 @@
     window.utils.appendNode(commentText, commentWrapper);
   };
 
-  var renderCurrentImageDescription = function() {
+  var renderCurrentImageDescription = function () {
     var currentDescription = currentPictureNode.querySelector(
-      '.social__caption'
+        '.social__caption'
     );
     currentDescription.textContent = currentPictureData.description;
   };
 
-  var handleResizeControl = function(newValue, input, node) {
+  var handleResizeControl = function (newValue, input, node) {
     input.value = newValue + '%';
     node.style.transform = 'scale(' + newValue / 100 + ')';
   };
 
-  var setValue = function(el, value) {
+  var setValue = function (el, value) {
     el.value = value;
   };
 
-  var changeEffect = function(procent) {
+  var changeEffect = function (procent) {
     var difference =
       effectsList[choosedEffect].max - effectsList[choosedEffect].min;
     var onePart = Math.round(difference * procent) / 100;
@@ -233,7 +226,7 @@
       : 'none';
   };
 
-  var getNewSliderPosition = (startX, endX, pinOffsetLeft, scaleLineWidth) => {
+  var getNewSliderPosition = function (startX, endX, pinOffsetLeft, scaleLineWidth) {
     var shift = startX - endX;
 
     switch (true) {
@@ -246,8 +239,8 @@
     }
   };
 
-  var applySliderHandlers = function(sliderElements, onChange) {
-    sliderElements.pin.addEventListener('mousedown', function(evt) {
+  var applySliderHandlers = function (sliderElements, onChange) {
+    sliderElements.pin.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
       var scaleLineWidth = sliderElements.line.offsetWidth;
 
@@ -257,18 +250,18 @@
 
       var dragged = false;
 
-      var onMouseMove = function(moveEvt) {
+      var onMouseMove = function (moveEvt) {
         moveEvt.preventDefault();
         dragged = true;
 
         var leftPosition = getNewSliderPosition(
-          startCoords.x,
-          moveEvt.clientX,
-          sliderElements.pin.offsetLeft,
-          scaleLineWidth
+            startCoords.x,
+            moveEvt.clientX,
+            sliderElements.pin.offsetLeft,
+            scaleLineWidth
         );
         startCoords = {
-            x: moveEvt.clientX,
+          x: moveEvt.clientX,
         };
 
         var procent = Math.round((leftPosition / scaleLineWidth) * 100);
@@ -279,18 +272,18 @@
         setValue(sliderElements.value, effectProcentDefault);
       };
 
-      var onMouseUp = function(upEvt) {
+      var onMouseUp = function (upEvt) {
         upEvt.preventDefault();
 
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
 
         if (dragged) {
-          var onClickPreventDefault = function() {
+          var onClickPreventDefault = function () {
             upEvt.preventDefault();
             sliderElements.pin.removeEventListener(
-              'click',
-              onClickPreventDefault
+                'click',
+                onClickPreventDefault
             );
           };
           sliderElements.pin.addEventListener('click', onClickPreventDefault);
@@ -302,7 +295,7 @@
     });
   };
 
-  effectList.addEventListener('click', function(event) {
+  effectList.addEventListener('click', function (event) {
     var currentEffect = event.target;
     if (currentEffect.value) {
       var value = currentEffect.value;
@@ -313,31 +306,31 @@
     }
   });
 
-  uploadFile.addEventListener('change', function(event) {
+  uploadFile.addEventListener('change', function (event) {
     if (event.target.files.length) {
       showElement(imageUploadContainer);
     }
   });
 
-  buttonClose.addEventListener('click', function() {
+  buttonClose.addEventListener('click', function () {
     hideElement(imageUploadContainer);
   });
 
-  resizeControlPlus.addEventListener('click', function() {
+  resizeControlPlus.addEventListener('click', function () {
     var inputValue = resizeControlValue.value;
     var value = Number(inputValue.split('%')[0]);
     var newValue = value < 100 ? (value += 25) : value;
     handleResizeControl(newValue, resizeControlValue, currentImage);
   });
 
-  resizeControlMinus.addEventListener('click', function() {
+  resizeControlMinus.addEventListener('click', function () {
     var inputValue = resizeControlValue.value;
     var value = Number(inputValue.split('%')[0]);
     var newValue = value > 25 ? (value -= 25) : value;
     handleResizeControl(newValue, resizeControlValue, currentImage);
   });
 
-  picturesContainer.addEventListener('click', function(event) {
+  picturesContainer.addEventListener('click', function (event) {
     var picture = event.target;
     if (picture.tagName === 'IMG') {
       showElement(currentPictureNode);
@@ -345,7 +338,7 @@
     }
   });
 
-  buttonCloseBigBicture.addEventListener('click', function() {
+  buttonCloseBigBicture.addEventListener('click', function () {
     hideElement(currentPictureNode);
   });
 
@@ -360,5 +353,11 @@
   renderCurrentImageCommentsCount(currentPictureData);
   renderCurrentImageComment();
   renderCurrentImageDescription();
+  var sliderElements = {
+    value: document.querySelector('.scale__value'),
+    line: document.querySelector('.scale__line'),
+    level: document.querySelector('.scale__level'),
+    pin: document.querySelector('.scale__pin'),
+  };
   applySliderHandlers(sliderElements, changeEffect);
 })();
