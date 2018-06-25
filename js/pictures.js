@@ -19,11 +19,10 @@
     'Вот это тачка!',
   ];
 
-  var generateComments = function () {
-    var object = arguments[0];
-    var newComments = Array.prototype.slice.apply(object.outerComments);
+  var generateComments = function (args) {
+    var newComments = Array.prototype.slice.apply(args.outerComments);
     var shuffledComments = window.utils.shuffle(newComments);
-    return shuffledComments.slice(0, object.size).join(' ');
+    return shuffledComments.slice(0, args.size).join(' ');
   };
 
   var generateImageUrl = function (size) {
@@ -54,14 +53,13 @@
       });
   };
 
-  var generatePicture = function () {
-    var object = arguments[0];
-    var pictureElement = object.node.cloneNode(true);
-    pictureElement.querySelector('.picture__img').src = object.data.url;
+  var generatePicture = function (args) {
+    var pictureElement = args.node.cloneNode(true);
+    pictureElement.querySelector('.picture__img').src = args.data.url;
     pictureElement.querySelector('.picture__stat--likes').textContent =
-    object.data.likes;
+    args.data.likes;
     pictureElement.querySelector('.picture__stat--comments').textContent =
-    object.data.comments.length;
+    args.data.comments.length;
 
     return pictureElement;
   };
@@ -70,10 +68,9 @@
     return document.querySelector('#picture').content;
   };
 
-  var renderPictureList = function () {
-    var object = arguments[0];
+  var renderPictureList = function (args) {
     var fragment = document.createDocumentFragment();
-    object.elements.forEach(function (element) {
+    args.elements.forEach(function (element) {
       window.utils.appendNode({
         childNode: generatePicture({
           data: element,
@@ -84,7 +81,7 @@
     });
     window.utils.appendNode({
       childNode: fragment,
-      parentNode: object.parentNode,
+      parentNode: args.parentNode,
     });
   };
 
@@ -153,30 +150,27 @@
     },
   };
 
-  var setValue = function () {
-    var object = arguments[0];
-    object.element.value = object.value;
+  var setValue = function (args) {
+    args.element.value = args.value;
   };
 
-  var getNewSliderPosition = function () {
-    var object = arguments[0];
-    var shift = object.startX - object.endX;
+  var getNewSliderPosition = function (args) {
+    var shift = args.startX - args.endX;
 
     switch (true) {
-      case object.pinOffsetLeft - shift <= 0:
+      case args.pinOffsetLeft - shift <= 0:
         return 0;
-      case object.pinOffsetLeft - shift >= object.scaleLineWidth:
-        return object.scaleLineWidth;
+      case args.pinOffsetLeft - shift >= args.scaleLineWidth:
+        return args.scaleLineWidth;
       default:
-        return object.pinOffsetLeft - shift;
+        return args.pinOffsetLeft - shift;
     }
   };
 
-  var applySliderHandlers = function () {
-    var object = arguments[0];
-    object.sliderElements.pin.addEventListener('mousedown', function (evt) {
+  var applySliderHandlers = function (args) {
+    args.sliderElements.pin.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
-      var scaleLineWidth = object.sliderElements.line.offsetWidth;
+      var scaleLineWidth = args.sliderElements.line.offsetWidth;
 
       var startCoords = {
         x: evt.clientX,
@@ -191,7 +185,7 @@
         var leftPosition = getNewSliderPosition({
           startX: startCoords.x,
           endX: moveEvt.clientX,
-          pinOffsetLeft: object.sliderElements.pin.offsetLeft,
+          pinOffsetLeft: args.sliderElements.pin.offsetLeft,
           scaleLineWidth: scaleLineWidth,
         });
         startCoords = {
@@ -200,11 +194,11 @@
 
         var procent = Math.round((leftPosition / scaleLineWidth) * 100);
         effectProcentDefault = procent;
-        object.sliderElements.pin.style.left = effectProcentDefault + '%';
-        object.sliderElements.level.style.width = effectProcentDefault + '%';
-        object.onChange(effectProcentDefault);
+        args.sliderElements.pin.style.left = effectProcentDefault + '%';
+        args.sliderElements.level.style.width = effectProcentDefault + '%';
+        args.onChange(effectProcentDefault);
         setValue({
-          element: object.sliderElements.value,
+          element: args.sliderElements.value,
           value: effectProcentDefault,
         });
       };
@@ -218,12 +212,12 @@
         if (dragged) {
           var onClickPreventDefault = function () {
             upEvt.preventDefault();
-            object.sliderElements.pin.removeEventListener(
+            args.sliderElements.pin.removeEventListener(
                 'click',
                 onClickPreventDefault
             );
           };
-          object.sliderElements.pin.addEventListener('click', onClickPreventDefault);
+          args.sliderElements.pin.addEventListener('click', onClickPreventDefault);
         }
       };
 
@@ -278,10 +272,9 @@
 })();
 
 (function () {
-  var handleResizeControl = function () {
-    var object = arguments[0];
-    object.input.value = object.newValue + '%';
-    object.node.style.transform = 'scale(' + object.newValue / 100 + ')';
+  var handleResizeControl = function (args) {
+    args.input.value = args.newValue + '%';
+    args.node.style.transform = 'scale(' + args.newValue / 100 + ')';
   };
 
   var currentImage = document.querySelector('.img-upload__preview img');
@@ -312,19 +305,16 @@
 })();
 
 (function () {
-  var renderCurrentImage = function () {
-    var object = arguments[0];
-    object.node.src = object.data.url;
+  var renderCurrentImage = function (args) {
+    args.node.src = args.data.url;
   };
 
-  var renderCurrentImageLikesCount = function () {
-    var object = arguments[0];
-    object.node.textContent = object.data.likes;
+  var renderCurrentImageLikesCount = function (args) {
+    args.node.textContent = args.data.likes;
   };
 
-  var renderCurrentImageCommentsCount = function () {
-    var object = arguments[0];
-    object.node.textContent = object.data.comments.length;
+  var renderCurrentImageCommentsCount = function (args) {
+    args.node.textContent = args.data.comments.length;
   };
 
   var createCurrentImageCommentAvatar = function () {
@@ -339,26 +329,24 @@
     return commentAuthorAvatar;
   };
 
-  var renderCurrentImageComment = function () {
-    var object = arguments[0];
-    var commentText = document.createTextNode(object.comments);
+  var renderCurrentImageComment = function (args) {
+    var commentText = document.createTextNode(args.comments);
     window.utils.appendNode({
-      childNode: object.childNode,
-      parentNode: object.parentNode,
+      childNode: args.childNode,
+      parentNode: args.parentNode,
     });
     window.utils.appendNode({
-      childNode: object.avatar,
-      parentNode: object.childNode,
+      childNode: args.avatar,
+      parentNode: args.childNode,
     });
     window.utils.appendNode({
       childNode: commentText,
-      parentNode: object.childNode,
+      parentNode: args.childNode,
     });
   };
 
-  var renderCurrentImageDescription = function () {
-    var object = arguments[0];
-    object.node.textContent = object.message;
+  var renderCurrentImageDescription = function (args) {
+    args.node.textContent = args.message;
   };
 
   window.utils.hideVisuallyElement(document.querySelector('.social__comment-count'));
@@ -418,5 +406,75 @@
   renderCurrentImageDescription({
     message: currentPictureData.description,
     node: currentDescription,
+  });
+})();
+
+(function () {
+  var validityErrors = {
+    hashCount: 'Количество хештегов не должно быть больше 5',
+    char: 'Первый символ каждого тега должен быть #',
+    minLength: 'Длина тега не может быть меньше 1 символа',
+    maxLength: 'Длина тега не может быть больше 20 символов',
+    dublicates: 'В списке хештегов содержаться дубликаты',
+  };
+
+  var handleTagCount = function (field, values) {
+    var message = '';
+    if (values.length > 5) {
+      field.setCustomValidity(validityErrors.hashCount);
+    }
+  };
+
+  var handleCheckFirstChar = function (field, values) {
+    var message = '';
+    values.map(function (value) {
+      if (value[0] !== '#') {
+        field.setCustomValidity(validityErrors.char);
+      }
+
+    });
+  };
+
+  var handleCheckTagLength = function (field, values) {
+    var minLength = 2;
+    var maxLength = 20;
+    var message = '';
+    values.map(function (value) {
+      if (value.length < minLength) {
+        message = field.setCustomValidity(validityErrors.minLength);
+      } else if (value.length > maxLength) {
+        message = field.setCustomValidity(validityErrors.maxLength);
+      }
+      return message;
+    });
+  };
+
+  var handleDuplicates = function (field, values) {
+    var value = {};
+    var message = '';
+
+    values.map(function (item) {
+      if (!value[item]) {
+        value[item] = true;
+      } else {
+        message = field.setCustomValidity(validityErrors.dublicates);
+      }
+    });
+
+    return message;
+  };
+
+  var hashTagForm = document.querySelector('#upload-select-image');
+  hashTagForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var currentField = event.target.hashtags;
+    var hashTags = '';
+    if (currentField.value && currentField.value.length > 0) {
+      hashTags = currentField.value.trim().split(' ');
+      handleCheckFirstChar(currentField, hashTags);
+      handleTagCount(currentField, hashTags);
+      handleCheckTagLength(currentField, hashTags);
+      handleDuplicates(currentField, hashTags);
+    }
   });
 })();
