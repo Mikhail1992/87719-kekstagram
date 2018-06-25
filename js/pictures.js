@@ -421,18 +421,20 @@
   var handleTagCount = function (field, values) {
     var message = '';
     if (values.length > 5) {
-      field.setCustomValidity(validityErrors.hashCount);
+      message = field.setCustomValidity(validityErrors.hashCount);
     }
+    return message;
   };
 
   var handleCheckFirstChar = function (field, values) {
     var message = '';
     values.map(function (value) {
       if (value[0] !== '#') {
-        field.setCustomValidity(validityErrors.char);
+        message = field.setCustomValidity(validityErrors.char);
       }
-
     });
+
+    return message;
   };
 
   var handleCheckTagLength = function (field, values) {
