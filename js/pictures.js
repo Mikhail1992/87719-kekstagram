@@ -73,6 +73,7 @@
   var renderPictureList = function () {
     var object = arguments[0];
     var fragment = document.createDocumentFragment();
+
     object.elements.forEach(function (element) {
       window.utils.appendNode({
         childNode: generatePicture({
@@ -82,6 +83,7 @@
         parentNode: fragment,
       });
     });
+
     window.utils.appendNode({
       childNode: fragment,
       parentNode: object.parentNode,
