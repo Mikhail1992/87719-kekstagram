@@ -17,9 +17,9 @@
       <h2 class="img-filters__title visually-hidden">Фильтр фотографий</h2>
 
       <form class="img-filters__form" action="index.html" method="get" autocomplete="off">
-        <button type=button class="img-filters__button img-filters__button--active" id="filter-popular">Популярные</button>
-        <button type=button class="img-filters__button" id="filter-new">Новые</button>
-        <button type=button class="img-filters__button" id="filter-discussed">Обсуждаемые</button>
+        <button id="filter-popular" class="img-filters__button img-filters__button--active" type="button">Популярные</button>
+        <button id="filter-new" class="img-filters__button" type="button">Новые</button>
+        <button id="filter-discussed" class="img-filters__button" type="button">Обсуждаемые</button>
       </form>
     </section>
 
@@ -30,11 +30,11 @@
         <div class="img-upload__wrapper">
           <h2 class="img-upload__title visually-hidden">Загрузка фотографии</h2>
 
-          <form class="img-upload__form" id="upload-select-image" method="post" enctype="multipart/form-data" autocomplete="off">
+          <form id="upload-select-image" class="img-upload__form" method="post" enctype="multipart/form-data" autocomplete="off">
 
             <fieldset class="img-upload__start">
-              <input type="file" id="upload-file" class="img-upload__input visually-hidden" name="filename" required>
-              <label for="upload-file" class="img-upload__label img-upload__control">Загрузить</label>
+              <input id="upload-file" class="img-upload__input visually-hidden" type="file" name="filename" required>
+              <label class="img-upload__label img-upload__control" for="upload-file">Загрузить</label>
             </fieldset>
 
             <div class="img-upload__overlay hidden">
@@ -42,9 +42,9 @@
                 <div class="img-upload__preview-container">
 
                   <fieldset class="img-upload__resize resize">
-                    <button type="button" class="resize__control resize__control--minus">Уменьшить</button>
-                    <input type="text" class="resize__control resize__control--value" value="55%" title="Image Scale" name="scale" readonly>
-                    <button type="button" class="resize__control resize__control--plus">Увеличить</button>
+                    <button class="resize__control resize__control--minus" type="button">Уменьшить</button>
+                    <input class="resize__control resize__control--value" type="text" name="scale" value="100%" title="Image Scale" readonly>
+                    <button class="resize__control resize__control--plus" type="button">Увеличить</button>
                   </fieldset>
 
                   <div class="img-upload__preview">
@@ -52,56 +52,56 @@
                   </div>
 
                   <fieldset class="img-upload__scale scale">
-                    <input type="number" class="scale__value" name="effect-level" value="20">
+                    <input class="scale__value" type="number" name="effect-level" value="20">
                     <div class="scale__line">
-                      <div class="scale__pin" tabindex="0">Кнопка изменения глубины эффекта фотографии</div>
+                      <div class="scale__pin" tabindex="0" draggable="true">Кнопка изменения глубины эффекта фотографии</div>
                       <div class="scale__level">Глубина эффекта фотографии</div>
                     </div>
                   </fieldset>
 
-                  <button type="reset" class="img-upload__cancel cancel" id="upload-cancel">Закрыть</button>
+                  <button id="upload-cancel" class="img-upload__cancel cancel" type="reset">Закрыть</button>
                 </div>
 
                 <fieldset class="img-upload__effects effects">
                   <ul class="effects__list">
                     <li class="effects__item">
-                      <input type="radio" class="effects__radio visually-hidden" name="effect" id="effect-none" value="none">
-                      <label for="effect-none" class="effects__label">
+                      <input id="effect-none" class="effects__radio visually-hidden" type="radio" name="effect" value="none">
+                      <label class="effects__label" for="effect-none">
                         <span class="effects__preview effects__preview--none">Превью фото без эффекта</span>
                         Оригинал
                       </label>
                     </li>
                     <li class="effects__item">
-                      <input type="radio" class="effects__radio visually-hidden" name="effect" id="effect-chrome" value="chrome">
-                      <label for="effect-chrome" class="effects__label">
+                      <input id="effect-chrome" class="effects__radio visually-hidden" type="radio" name="effect" value="chrome">
+                      <label class="effects__label" for="effect-chrome">
                         <span class="effects__preview effects__preview--chrome">Превью эффекта Хром</span>
                         Хром
                       </label>
                     </li>
                     <li class="effects__item">
-                      <input type="radio" class="effects__radio visually-hidden" name="effect" id="effect-sepia" value="sepia">
-                      <label for="effect-sepia" class="effects__label">
+                      <input id="effect-sepia" class="effects__radio visually-hidden" type="radio" name="effect" value="sepia">
+                      <label class="effects__label" for="effect-sepia">
                         <span class="effects__preview effects__preview--sepia">Превью эффекта Сепия</span>
                         Сепия
                       </label>
                     </li>
                     <li class="effects__item">
-                      <input type="radio" class="effects__radio visually-hidden" name="effect" id="effect-marvin" value="marvin">
-                      <label for="effect-marvin" class="effects__label">
+                      <input id="effect-marvin" class="effects__radio visually-hidden" type="radio" name="effect" value="marvin">
+                      <label class="effects__label" for="effect-marvin">
                         <span class="effects__preview effects__preview--marvin">Превью эффекта Марвин</span>
                         Марвин
                       </label>
                     </li>
                     <li class="effects__item">
-                      <input type="radio" class="effects__radio visually-hidden" name="effect" id="effect-phobos" value="phobos">
-                      <label for="effect-phobos" class="effects__label">
+                      <input id="effect-phobos" class="effects__radio visually-hidden" type="radio" name="effect" value="phobos">
+                      <label class="effects__label" for="effect-phobos">
                         <span class="effects__preview effects__preview--phobos">Превью эффекта Фобос</span>
                         Фобос
                       </label>
                     </li>
                     <li class="effects__item">
-                      <input type="radio" class="effects__radio visually-hidden" name="effect" id="effect-heat" value="heat" checked>
-                      <label for="effect-heat" class="effects__label">
+                      <input id="effect-heat" class="effects__radio visually-hidden" type="radio" name="effect" value="heat" checked>
+                      <label class="effects__label" for="effect-heat">
                         <span class="effects__preview effects__preview--heat">Превью эффекта Зной</span>
                         Зной
                       </label>
@@ -114,7 +114,7 @@
                   <textarea class="text__description" name="description" placeholder="Ваш комментарий..."></textarea>
                 </fieldset>
 
-                <button type="submit" class="img-upload__submit" id="upload-submit">Опубликовать</button>
+                <button id="upload-submit" class="img-upload__submit" type="submit">Опубликовать</button>
               </div>
             </div>
           </form>
@@ -150,11 +150,11 @@
           <button class="social__loadmore" type="button">Загрузить еще</button>
           <div class="social__footer">
             <img class="social__picture" src="img/avatar-6.svg" alt="Аватар комментатора фотографии" width="35" height="35">
-            <input type="text" class="social__footer-text" placeholder="Ваш комментарий...">
-            <button type="button" class="social__footer-btn" name="button">Отправить</button>
+            <input class="social__footer-text" type="text" placeholder="Ваш комментарий...">
+            <button class="social__footer-btn" type="button" name="button">Отправить</button>
           </div>
         </div>
-        <button type="reset" class="big-picture__cancel cancel" id="picture-cancel">Закрыть</button>
+        <button id="picture-cancel" class="big-picture__cancel cancel" type="reset">Закрыть</button>
       </div>
     </section>
 
@@ -169,24 +169,24 @@
 
       <ul class="page-footer__contacts contacts">
         <li>
-          <a href="https://twitter.com/htmlacademy_ru" class="contacts__link contacts__link--twitter">Twitter</a>
+          <a class="contacts__link contacts__link--twitter" href="https://twitter.com/htmlacademy_ru">Twitter</a>
         </li>
         <li>
-          <a href="https://www.instagram.com/htmlacademy/" class="contacts__link contacts__link--instagram">Instagtam</a>
+          <a class="contacts__link contacts__link--instagram" href="https://www.instagram.com/htmlacademy/">Instagtam</a>
         </li>
         <li>
-          <a href="https://www.facebook.com/htmlacademy" class="contacts__link contacts__link--facebook">Facebook</a>
+          <a class="contacts__link contacts__link--facebook" href="https://www.facebook.com/htmlacademy">Facebook</a>
         </li>
         <li>
-          <a href="https://vk.com/htmlacademy" class="contacts__link contacts__link--vk">VK</a>
+          <a class="contacts__link contacts__link--vk" href="https://vk.com/htmlacademy">VK</a>
         </li>
       </ul>
     </div>
   </footer>
 
   <template id="picture">
-    <a href="#" class="picture__link">
-      <img class="picture__img" src="" width="182" height="182" alt="Случайная фотография">
+    <a class="picture__link" href="#">
+      <img class="picture__img" src width="182" height="182" alt="Случайная фотография">
       <p class="picture__stats">
         <span class="picture__stat picture__stat--comments"></span>
         <span class="picture__stat picture__stat--likes"></span>
