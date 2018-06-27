@@ -247,6 +247,15 @@
       : 'none';
   };
 
+  var toggleVisibilitySlider = function (value) {
+    if (value === 'none') {
+      window.utils.hideElement(sliderContainer);
+    } else {
+      window.utils.showElement(sliderContainer);
+    }
+  };
+
+  var sliderContainer = document.querySelector('.img-upload__scale');
   var effectList = document.querySelector('.effects__list');
   effectList.addEventListener('click', function (event) {
     var currentEffect = event.target;
@@ -255,6 +264,7 @@
       choosedEffect = value;
       currentImage.className = '';
       currentImage.classList.add('effects__preview--' + value);
+      toggleVisibilitySlider(value);
       changeEffect(effectProcentDefault);
     }
   });
@@ -415,43 +425,43 @@
     char: 'Первый символ каждого тега должен быть #',
     minLength: 'Длина тега не может быть меньше 1 символа',
     maxLength: 'Длина тега не может быть больше 20 символов',
-    dublicates: 'В списке хештегов содержаться дубликаты',
+    dublicates: 'В списке хештегов содержатся дубликаты',
   };
 
-  var handleTagCount = function (field, values) {
+  var handleTagCount = function (values) {
     var message = '';
     if (values.length > 5) {
-      message = field.setCustomValidity(validityErrors.hashCount);
+      message = validityErrors.hashCount;
     }
     return message;
   };
 
-  var handleCheckFirstChar = function (field, values) {
+  var handleCheckFirstChar = function (values) {
     var message = '';
     values.map(function (value) {
       if (value[0] !== '#') {
-        message = field.setCustomValidity(validityErrors.char);
+        message = validityErrors.char;
       }
     });
 
     return message;
   };
 
-  var handleCheckTagLength = function (field, values) {
+  var handleCheckTagLength = function (values) {
     var minLength = 2;
     var maxLength = 20;
     var message = '';
     values.map(function (value) {
       if (value.length < minLength) {
-        message = field.setCustomValidity(validityErrors.minLength);
+        message = validityErrors.minLength;
       } else if (value.length > maxLength) {
-        message = field.setCustomValidity(validityErrors.maxLength);
+        message = validityErrors.maxLength;
       }
       return message;
     });
   };
 
-  var handleDuplicates = function (field, values) {
+  var handleDuplicates = function (values) {
     var value = {};
     var message = '';
 
@@ -459,11 +469,27 @@
       if (!value[item]) {
         value[item] = true;
       } else {
-        message = field.setCustomValidity(validityErrors.dublicates);
+        message = validityErrors.dublicates;
       }
     });
 
     return message;
+  };
+
+  var checkValidity = function (tags) {
+    var validityMessages = {
+      handleCheckFirstChar: handleCheckFirstChar(tags),
+      handleTagCount: handleTagCount(tags),
+      handleCheckTagLength: handleCheckTagLength(tags),
+      handleDuplicates: handleDuplicates(tags),
+    };
+    for (var message in validityMessages) {
+      if (validityMessages[message]) {
+        return validityMessages[message];
+      }
+    }
+
+    return '';
   };
 
   var hashTagForm = document.querySelector('#upload-select-image');
@@ -471,12 +497,27 @@
     event.preventDefault();
     var currentField = event.target.hashtags;
     var hashTags = '';
+    var error = '';
+
     if (currentField.value && currentField.value.length > 0) {
       hashTags = currentField.value.trim().split(' ');
-      handleCheckFirstChar(currentField, hashTags);
-      handleTagCount(currentField, hashTags);
-      handleCheckTagLength(currentField, hashTags);
-      handleDuplicates(currentField, hashTags);
+      error = checkValidity(hashTags);
+      currentField.setCustomValidity(error);
+    }
+
+    if (!error) {
+      hashTagForm.submit();
+    }
+  });
+
+  var hashTagsInput = document.querySelector('.text__hashtags');
+  hashTagsInput.addEventListener('input', function (event) {
+    var currentField = event.target;
+    var hashTags = '';
+
+    if (currentField.value && currentField.value.length > 0) {
+      hashTags = currentField.value.trim().split(' ');
+      currentField.setCustomValidity(checkValidity(hashTags));
     }
   });
 })();
