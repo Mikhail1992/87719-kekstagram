@@ -487,7 +487,6 @@
     };
     for (var message in validityMessages) {
       if (validityMessages[message]) {
-        console.log(validityMessages[message]);
         return validityMessages[message];
       }
     }
