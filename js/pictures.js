@@ -453,9 +453,9 @@
     var message = '';
 
     values.forEach(function (value) {
-      if (value.length < minLength && value[0] === '#') {
+      if (value.length < minLength) {
         message = validityErrors.minLength;
-      } else if (value.length > maxLength && value[0] === '#') {
+      } else if (value.length > maxLength) {
         message = validityErrors.maxLength;
       }
     });
