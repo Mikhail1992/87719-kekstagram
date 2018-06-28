@@ -438,7 +438,7 @@
 
   var handleCheckFirstChar = function (values) {
     var message = '';
-    values.map(function (value) {
+    values.forEach(function (value) {
       if (value[0] !== '#') {
         message = validityErrors.char;
       }
@@ -451,21 +451,23 @@
     var minLength = 2;
     var maxLength = 20;
     var message = '';
-    values.map(function (value) {
-      if (value.length < minLength) {
+
+    values.forEach(function (value) {
+      if (value.length < minLength && value[0] === '#') {
         message = validityErrors.minLength;
-      } else if (value.length > maxLength) {
+      } else if (value.length > maxLength && value[0] === '#') {
         message = validityErrors.maxLength;
       }
-      return message;
     });
+
+    return message;
   };
 
   var handleDuplicates = function (values) {
     var value = {};
     var message = '';
 
-    values.map(function (item) {
+    values.forEach(function (item) {
       if (!value[item]) {
         value[item] = true;
       } else {
@@ -485,6 +487,7 @@
     };
     for (var message in validityMessages) {
       if (validityMessages[message]) {
+        console.log(validityMessages[message]);
         return validityMessages[message];
       }
     }
