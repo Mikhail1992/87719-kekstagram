@@ -79,6 +79,7 @@
         parentNode: fragment,
       });
     });
+
     window.utils.appendNode({
       childNode: fragment,
       parentNode: args.parentNode,
