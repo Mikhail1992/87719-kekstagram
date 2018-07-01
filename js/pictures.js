@@ -450,8 +450,8 @@
     }
 
     var successLoad = function () {
-      var currentPictureNode = document.querySelector('.big-picture');
-      window.utils.hideElement(currentPictureNode);
+      var imageUploadContainer = document.querySelector('.img-upload__overlay');
+      window.utils.hideElement(imageUploadContainer);
     };
 
     if (!error) {
