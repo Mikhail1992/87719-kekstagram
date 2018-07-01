@@ -88,8 +88,14 @@
       currentField.setCustomValidity(error);
     }
 
+    var successLoad = function () {
+      var imageUploadContainer = document.querySelector('.img-upload__overlay');
+      window.utils.hideElement(imageUploadContainer);
+    };
+
     if (!error) {
-      hashTagForm.submit();
+      var formData = new FormData(hashTagForm);
+      window.backend.save(formData, successLoad, window.utils.errorHandler);
     }
   });
 

@@ -169,7 +169,6 @@
     level: document.querySelector('.scale__level'),
     pin: document.querySelector('.scale__pin'),
   };
-
   applySliderHandlers({
     sliderElements: sliderElements,
     onChange: changeEffect,
