@@ -76,5 +76,15 @@
       node.textContent = errorMessage;
       document.body.insertAdjacentElement('afterbegin', node);
     },
+
+    generateArrayPart: function (arr, arrLength) {
+      var indexArr = Array(arr.length).fill().map(function (item, index) {
+        return index;
+      });
+      var newArrayIndexes = indexArr.slice(0, arrLength);
+      return this.shuffle(newArrayIndexes).map(function (index) {
+        return arr[index];
+      });
+    },
   };
 })();
