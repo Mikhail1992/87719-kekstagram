@@ -20,7 +20,7 @@
   var handleCheckFirstChar = function (values) {
     var message = '';
     values.forEach(function (value) {
-      if (value[0] !== '#') {
+      if (value.length && value[0] !== '#') {
         message = validityErrors.char;
       }
     });
@@ -34,7 +34,7 @@
     var message = '';
 
     values.forEach(function (value) {
-      if (value.length < minLength) {
+      if (value.length < minLength && value[0] === '#') {
         message = validityErrors.minLength;
       } else if (value.length > maxLength) {
         message = validityErrors.maxLength;

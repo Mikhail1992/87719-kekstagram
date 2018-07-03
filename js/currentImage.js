@@ -2,6 +2,8 @@
 
 
 (function () {
+  var ESC_KEYCODE = 27;
+
   var renderCurrentImage = function (args) {
     args.node.src = args.data.url;
   };
@@ -59,6 +61,7 @@
   uploadFile.addEventListener('change', function (event) {
     if (event.target.files.length) {
       window.utils.showElement(imageUploadContainer);
+      imageUploadContainer.focus();
     }
   });
 
@@ -104,6 +107,18 @@
       renderCurrentImageComments({
         comments: currentPictureData.comments,
       });
+    }
+  });
+
+  document.body.addEventListener('keydown', function (event) {
+    var target = event.target;
+    if (
+      event.keyCode === ESC_KEYCODE &&
+      target.nodeName !== 'INPUT' &&
+      target.nodeName !== 'TEXTAREA'
+    ) {
+      window.utils.hideElement(imageUploadContainer);
+      window.utils.hideElement(currentPictureNode);
     }
   });
 })();
