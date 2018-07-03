@@ -82,7 +82,7 @@
         return index;
       });
       var newArrayIndexes = indexArr.slice(0, arrLength);
-      return this.shuffle(newArrayIndexes).map(function (index) {
+      return window.utils.shuffle(newArrayIndexes).map(function (index) {
         return arr[index];
       });
     },

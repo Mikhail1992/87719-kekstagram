@@ -3,6 +3,8 @@
 
 (function () {
   var ESC_KEYCODE = 27;
+  var INPUT_FIELD = 'INPUT';
+  var TEXTAREA_FIELD = 'TEXTAREA';
 
   var renderCurrentImage = function (args) {
     args.node.src = args.data.url;
@@ -114,8 +116,8 @@
     var target = event.target;
     if (
       event.keyCode === ESC_KEYCODE &&
-      target.nodeName !== 'INPUT' &&
-      target.nodeName !== 'TEXTAREA'
+      target.nodeName !== INPUT_FIELD &&
+      target.nodeName !== TEXTAREA_FIELD
     ) {
       window.utils.hideElement(imageUploadContainer);
       window.utils.hideElement(currentPictureNode);
