@@ -41,25 +41,6 @@
     filter.classList.remove('img-filters--inactive');
   };
 
-  var filterByPopular = function () {
-    window.pictureList = originalPictures;
-  };
-
-  var filterByNew = function () {
-    window.pictureList = window.utils.generateArrayPart(originalPictures, 10);
-  };
-
-  var filterByComments = function () {
-    window.pictureList = window.pictureList.sort(function (left, right) {
-      if (left.comments.length > right.comments.length) {
-        return -1;
-      } else if (left.comments.length < right.comments.length) {
-        return 1;
-      }
-      return 0;
-    });
-  };
-
   var successPicturesLoad = function (data) {
     window.pictureList = data;
     originalPictures = data;
@@ -72,6 +53,33 @@
 
   window.backend.load(successPicturesLoad, window.utils.errorHandler);
 
+  var filterByPopular = function () {
+    window.pictureList = originalPictures;
+  };
+
+  var filterByNew = function () {
+    window.pictureList = window.utils.generateArrayPart(originalPictures, 10);
+  };
+
+  var filterByComments = function () {
+    window.pictureList = originalPictures.sort(function (left, right) {
+      if (left.comments.length > right.comments.length) {
+        return -1;
+      } else if (left.comments.length < right.comments.length) {
+        return 1;
+      }
+      return 0;
+    });
+  };
+
+  var handleFilterData = window.utils.debounce(function () {
+    picturesContainer.innerHTML = emptyPictureList;
+    renderPictureList({
+      elements: window.pictureList,
+      parentNode: picturesContainer,
+    });
+  });
+
   var filterForm = document.querySelector('.img-filters__form');
   var filterButton = document.querySelectorAll('.img-filters__button');
   var filter = {
@@ -79,17 +87,18 @@
     'filter-new': filterByNew,
     'filter-discussed': filterByComments,
   };
-  filterForm.addEventListener('click', function (event) {
+
+  var changeActiveFilter = function (event) {
     filterButton.forEach(function (button) {
       button.classList.remove('img-filters__button--active');
     });
     var currentFilterId = event.target.id;
     event.target.classList.add('img-filters__button--active');
     filter[currentFilterId]();
-    picturesContainer.innerHTML = emptyPictureList;
-    renderPictureList({
-      elements: window.pictureList,
-      parentNode: picturesContainer,
-    });
+  };
+
+  filterForm.addEventListener('click', function (event) {
+    changeActiveFilter(event);
+    handleFilterData();
   });
 })();
