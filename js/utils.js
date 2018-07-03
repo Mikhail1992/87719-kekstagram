@@ -76,5 +76,30 @@
       node.textContent = errorMessage;
       document.body.insertAdjacentElement('afterbegin', node);
     },
+
+    generateArrayPart: function (arr, arrLength) {
+      var indexArr = Array(arr.length).fill().map(function (item, index) {
+        return index;
+      });
+      var newArrayIndexes = indexArr.slice(0, arrLength);
+      return window.utils.shuffle(newArrayIndexes).map(function (index) {
+        return arr[index];
+      });
+    },
+
+    debounce: function (fun) {
+      var DEBOUNCE_INTERVAL = 300;
+      var lastTimeout = null;
+
+      return function () {
+        var args = arguments;
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(function () {
+          fun.apply(null, args);
+        }, DEBOUNCE_INTERVAL);
+      };
+    },
   };
 })();
