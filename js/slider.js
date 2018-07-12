@@ -165,7 +165,6 @@
 
   var sliderContainer = document.querySelector('.img-upload__scale');
 
-
   window.changeEffectData = function (value) {
     choosedEffect = value;
     currentImage.className = '';
