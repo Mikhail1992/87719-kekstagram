@@ -78,7 +78,7 @@
   };
 
   var hashTagForm = document.querySelector('#upload-select-image');
-  hashTagForm.addEventListener('submit', function (event) {
+  window.handleSubmitUploadForm = function (event) {
     event.preventDefault();
     var currentField = event.target.hashtags;
     var hashTags = '';
@@ -100,10 +100,9 @@
       var formData = new FormData(hashTagForm);
       window.backend.save(formData, successLoad, window.utils.errorHandler);
     }
-  });
+  };
 
-  var hashTagsInput = document.querySelector('.text__hashtags');
-  hashTagsInput.addEventListener('input', function (event) {
+  window.handleInputTags = function () {
     var currentField = event.target;
     var hashTags = '';
     var error = '';
@@ -114,5 +113,5 @@
     }
 
     currentField.setCustomValidity(error);
-  });
+  };
 })();

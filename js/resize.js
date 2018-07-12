@@ -7,9 +7,9 @@
   };
 
   var currentImage = document.querySelector('.img-upload__preview img');
-  var resizeControlPlus = document.querySelector('.resize__control--plus');
   var resizeControlValue = document.querySelector('.resize__control--value');
-  resizeControlPlus.addEventListener('click', function () {
+
+  window.handleResizePlus = function () {
     var inputValue = resizeControlValue.value;
     var value = Number(inputValue.split('%')[0]);
     var newValue = value < 100 ? (value += 25) : value;
@@ -18,10 +18,9 @@
       input: resizeControlValue,
       node: currentImage,
     });
-  });
+  };
 
-  var resizeControlMinus = document.querySelector('.resize__control--minus');
-  resizeControlMinus.addEventListener('click', function () {
+  window.handleResizeMinus = function () {
     var inputValue = resizeControlValue.value;
     var value = Number(inputValue.split('%')[0]);
     var newValue = value > 25 ? (value -= 25) : value;
@@ -30,5 +29,5 @@
       input: resizeControlValue,
       node: currentImage,
     });
-  });
+  };
 })();

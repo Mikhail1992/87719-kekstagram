@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var effectProcentDefault = 20;
-  var ENTER_KEYCODE = 13;
   var effectProcentDefault = 100;
 
   var choosedEffect = 'none';
@@ -166,9 +164,9 @@
   };
 
   var sliderContainer = document.querySelector('.img-upload__scale');
-  var effectList = document.querySelector('.effects__list');
 
-  var changeEffectData = function (value) {
+
+  window.changeEffectData = function (value) {
     choosedEffect = value;
     currentImage.className = '';
     currentImage.classList.add('effects__preview--' + value);
@@ -176,16 +174,6 @@
     setEffectProcent(effectProcentDefault, sliderElements);
     changeEffect(effectProcentDefault);
   };
-
-  effectList.addEventListener('click', function (event) {
-    changeEffectData(event.target.value);
-  });
-
-  effectList.addEventListener('keydown', function (event) {
-    if (event.keyCode === ENTER_KEYCODE) {
-      changeEffectData(event.target.querySelector('input').value);
-    }
-  });
 
   applySliderHandlers({
     sliderElements: sliderElements,
