@@ -66,13 +66,15 @@
       handleCheckTagLength: handleCheckTagLength(tags),
       handleDuplicates: handleDuplicates(tags),
     };
-    for (var message in validityMessages) {
-      if (validityMessages[message]) {
-        return validityMessages[message];
-      }
-    }
+    var message = '';
 
-    return '';
+    Object.keys(validityMessages).forEach(function (item) {
+      if (validityMessages[item]) {
+        message = validityMessages[item];
+      }
+    });
+
+    return message;
   };
 
   var hashTagForm = document.querySelector('#upload-select-image');
@@ -85,8 +87,14 @@
     if (currentField.value && currentField.value.length > 0) {
       hashTags = currentField.value.trim().split(' ');
       error = checkValidity(hashTags);
-      currentField.setCustomValidity(error);
     }
+
+    currentField.setCustomValidity(error);
+
+    var successLoad = function () {
+      var imageUploadContainer = document.querySelector('.img-upload__overlay');
+      window.utils.hideElement(imageUploadContainer);
+    };
 
     if (!error) {
       hashTagForm.submit();
@@ -97,10 +105,13 @@
   hashTagsInput.addEventListener('input', function (event) {
     var currentField = event.target;
     var hashTags = '';
+    var error = '';
 
     if (currentField.value && currentField.value.length > 0) {
       hashTags = currentField.value.trim().split(' ');
-      currentField.setCustomValidity(checkValidity(hashTags));
+      error = checkValidity(hashTags);
     }
+
+    currentField.setCustomValidity(error);
   });
 })();

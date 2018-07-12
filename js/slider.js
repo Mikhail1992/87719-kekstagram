@@ -2,6 +2,9 @@
 
 (function () {
   var effectProcentDefault = 20;
+  var ENTER_KEYCODE = 13;
+  var effectProcentDefault = 100;
+
   var choosedEffect = 'none';
 
   var effectsList = {
@@ -141,25 +144,33 @@
       : 'none';
   };
 
-  var toggleVisibilitySlider = function (value) {
+  var toggleVisibilitySlider = function (value, node) {
     if (value === 'none') {
-      window.utils.hideElement(sliderContainer);
+      window.utils.hideElement(node);
     } else {
-      window.utils.showElement(sliderContainer);
+      window.utils.showElement(node);
     }
   };
 
   var sliderContainer = document.querySelector('.img-upload__scale');
   var effectList = document.querySelector('.effects__list');
+
+  var changeEffectData = function (value) {
+    choosedEffect = value;
+    currentImage.className = '';
+    currentImage.classList.add('effects__preview--' + value);
+    toggleVisibilitySlider(value, sliderContainer);
+    setEffectProcent(effectProcentDefault, sliderElements);
+    changeEffect(effectProcentDefault);
+  };
+
   effectList.addEventListener('click', function (event) {
-    var currentEffect = event.target;
-    if (currentEffect.value) {
-      var value = currentEffect.value;
-      choosedEffect = value;
-      currentImage.className = '';
-      currentImage.classList.add('effects__preview--' + value);
-      toggleVisibilitySlider(value);
-      changeEffect(effectProcentDefault);
+    changeEffectData(event.target.value);
+  });
+
+  effectList.addEventListener('keydown', function (event) {
+    if (event.keyCode === ENTER_KEYCODE) {
+      changeEffectData(event.target.querySelector('input').value);
     }
   });
 
