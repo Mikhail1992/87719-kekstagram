@@ -64,6 +64,17 @@
     }
   };
 
+  var setEffectProcent = function (procent, elements) {
+    effectProcentDefault = procent;
+    elements.pin.style.left = effectProcentDefault + '%';
+    elements.level.style.width = effectProcentDefault + '%';
+
+    setValue({
+      element: elements.value,
+      value: effectProcentDefault,
+    });
+  };
+
   var applySliderHandlers = function (args) {
     args.sliderElements.pin.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
@@ -90,14 +101,9 @@
         };
 
         var procent = Math.round((leftPosition / scaleLineWidth) * 100);
-        effectProcentDefault = procent;
-        args.sliderElements.pin.style.left = effectProcentDefault + '%';
-        args.sliderElements.level.style.width = effectProcentDefault + '%';
+        setEffectProcent(procent, args.sliderElements);
         args.onChange(effectProcentDefault);
-        setValue({
-          element: args.sliderElements.value,
-          value: effectProcentDefault,
-        });
+
       };
 
       var onMouseUp = function (upEvt) {
@@ -152,6 +158,13 @@
     }
   };
 
+  var sliderElements = {
+    value: document.querySelector('.scale__value'),
+    line: document.querySelector('.scale__line'),
+    level: document.querySelector('.scale__level'),
+    pin: document.querySelector('.scale__pin'),
+  };
+
   var sliderContainer = document.querySelector('.img-upload__scale');
   var effectList = document.querySelector('.effects__list');
 
@@ -173,13 +186,6 @@
       changeEffectData(event.target.querySelector('input').value);
     }
   });
-
-  var sliderElements = {
-    value: document.querySelector('.scale__value'),
-    line: document.querySelector('.scale__line'),
-    level: document.querySelector('.scale__level'),
-    pin: document.querySelector('.scale__pin'),
-  };
 
   applySliderHandlers({
     sliderElements: sliderElements,

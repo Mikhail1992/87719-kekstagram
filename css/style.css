@@ -854,6 +854,10 @@ main {
   border-radius: 5px;
 }
 
+.text__hashtags:invalid,
+.text__description:invalid {
+  border-color: red;
+}
 
 /* Кнопка отправки формы */
 

@@ -1,58 +1,9 @@
 'use strict';
 
 (function () {
-  var comments = [
-    'Всё отлично!',
-    'В целом всё неплохо. Но не всё.',
-    'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-    'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-    'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-    'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
-  ];
-
-  var description = [
-    'Тестим новую камеру!',
-    'Затусили с друзьями на море',
-    'Как же круто тут кормят',
-    'Отдыхаем...',
-    'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
-    'Вот это тачка!',
-  ];
-
-  var generateComments = function (args) {
-    var newComments = Array.prototype.slice.apply(args.outerComments);
-    var shuffledComments = window.utils.shuffle(newComments);
-    return shuffledComments.slice(0, args.size).join(' ');
-  };
-
-  var generateImageUrl = function (size) {
-    var newUrls = Array(size)
-      .fill()
-      .map(function (item, index) {
-        return 'photos/' + (index + 1) + '.jpg';
-      });
-    var shuffledUrls = window.utils.shuffle(newUrls);
-    return shuffledUrls.slice(0, size);
-  };
-
-  var generatePictures = function (size) {
-    var urlsList = generateImageUrl(size);
-    return Array(size)
-      .fill()
-      .map(function (item, index) {
-        return {
-          url: urlsList[index],
-          likes: window.utils.randomInteger(15, 200),
-          comments: generateComments({
-            size: 2,
-            outerComments: comments,
-          }),
-          description:
-            description[window.utils.randomInteger(0, description.length - 1)],
-        };
-      });
-  };
-
+  var picturesContainer = document.querySelector('.pictures');
+  var emptyPictureList = picturesContainer.innerHTML;
+  var originalPictures;
   var generatePicture = function (args) {
     var pictureElement = args.node.cloneNode(true);
     pictureElement.querySelector('.picture__img').src = args.data.url;
@@ -79,30 +30,75 @@
         parentNode: fragment,
       });
     });
-
     window.utils.appendNode({
       childNode: fragment,
       parentNode: args.parentNode,
     });
   };
 
-  window.pictureList = generatePictures(25);
-  var picturesContainer = function () {
-    return document.querySelector('.pictures');
+  var showFilter = function () {
+    var filter = document.querySelector('.img-filters');
+    filter.classList.remove('img-filters--inactive');
   };
 
-  renderPictureList({
-    elements: window.pictureList,
-    parentNode: picturesContainer(),
+  var successPicturesLoad = function (data) {
+    window.pictureList = data;
+    originalPictures = data;
+    renderPictureList({
+      elements: window.pictureList,
+      parentNode: picturesContainer,
+    });
+    showFilter();
+  };
+
+  window.backend.load(successPicturesLoad, window.utils.errorHandler);
+
+  var filterByPopular = function () {
+    window.pictureList = originalPictures;
+  };
+
+  var filterByNew = function () {
+    window.pictureList = window.utils.generateArrayPart(originalPictures, 10);
+  };
+
+  var filterByComments = function () {
+    window.pictureList = originalPictures.sort(function (left, right) {
+      if (left.comments.length > right.comments.length) {
+        return -1;
+      } else if (left.comments.length < right.comments.length) {
+        return 1;
+      }
+      return 0;
+    });
+  };
+
+  var handleFilterData = window.utils.debounce(function () {
+    picturesContainer.innerHTML = emptyPictureList;
+    renderPictureList({
+      elements: window.pictureList,
+      parentNode: picturesContainer,
+    });
   });
 
-  var currentModalImage = document.querySelector('.big-picture__img img');
-  var currentPictureNode = document.querySelector('.big-picture');
-  picturesContainer().addEventListener('click', function (event) {
-    var picture = event.target;
-    if (picture.tagName === 'IMG') {
-      window.utils.showElement(currentPictureNode);
-      currentModalImage.src = picture.src;
-    }
+  var filterForm = document.querySelector('.img-filters__form');
+  var filterButton = document.querySelectorAll('.img-filters__button');
+  var filter = {
+    'filter-popular': filterByPopular,
+    'filter-new': filterByNew,
+    'filter-discussed': filterByComments,
+  };
+
+  var changeActiveFilter = function (event) {
+    filterButton.forEach(function (button) {
+      button.classList.remove('img-filters__button--active');
+    });
+    var currentFilterId = event.target.id;
+    event.target.classList.add('img-filters__button--active');
+    filter[currentFilterId]();
+  };
+
+  filterForm.addEventListener('click', function (event) {
+    changeActiveFilter(event);
+    handleFilterData();
   });
 })();
